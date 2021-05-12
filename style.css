@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+}
+img-text{
+    background:url("images/728686d4825a45f7dbaddbf1179cd753.jpg");
+    width:100%;
+    height:100vH;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
 }

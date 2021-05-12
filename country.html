@@ -51,56 +51,16 @@
             <a class="nav-link text-light" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
         </ul>
-
       </div>
     </div>
   </nav>
-  <section class="mt-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <img src="images/footbal-player.jpg" class="rounded float-start m-a" alt="" style="width:100%;">
-        </div>
-        <div class="col-md-6 mt-2">
-          <p class="border border-primary border-2 rounded p-2" style="margin:auto;"><span class="text-primary">Nogomet</span> je sport u kojemu se dvije momčadi od 11 igrača nadmeću na pravokutnom igralištu travnate površine. Cilj igre jest postizanje više pogodaka od protivničke momčadi bilo kojim dijelom tijela osim rukom. Vratar je jedini igrač kojemu je dozvoljeno igrati i zabiti gol rukama, doduše samo unutar jasno označenog pravokutnika ispred vlastitih vrata. Svim igračima dopušteno je proizvoljno kretanje po terenu, iako pravilo zaleđa ograničava napadačke kretnje ovisno o položaju lopte i protivničke obrane.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col">
-        <span class="bg-primary text-white p-2">Povijest</span>
-        <hr class="bg-primary">
-        <p class="text-justify">
-          Igre s loptom zabilježene su i prije nove ere; cuju bijaše jedna od razbibriga drevne Kine, kao i harpastum u 
-          Rimskoj Republici te njegov izravni starogrčki predak fainínda. 
-          Svaki od navedenih antičkih sportova bio je natjecateljske prirode, namijenjen desetorici do petnaestorici igrača po sastavu. 
-          Srednjovjekovna Europa dala je krvave igre s malo pravila za mnogo veći broj sudionika. Česte ozljede, 
-          javno komešanje i galama, ali i smanjeno zanimanje za temeljno englesko ratno umijeće, gađanje lukom i strijelom, 
-          razlozi su kojim je Edward II. opravdao zabranu takvih igara diljem kraljevske Engleske 1314. godine. 
-          Odredba je ukinuta 1667. nakon što je održavana brojnim izmjenama u prethodna tri stoljeća. Međutim, zapis iz 1602. 
-          bilježi igranje bliskog nogometnog pretka u Cornwallu, krajnjoj jugozapadnoj pokrajini Britanije. Teren za igru, 
-          duljine dvjestotinjak metara, omeđen je sa svake strane stativama ispred kojih bi vratar pokušavao spriječiti 
-          protivničke pokušaje zabijanja pogotka. Lopta se nije smjela uputiti suigraču bližem protivničkom golu. 
-          Dodavalo se i nogama i rukama, momčadi su se neprestano izmjenjivale u posjedu zbog protivničkog pritiska i grešaka u 
-          predaji lopte (poput dodavanja prema naprijed), a pogodaka uglavnom bijaše vrlo malo.
-        </p>
-      </div>
-    </div>  
+
+  <div class="container">
+      <div class="row mt-5" id="row"></div>
   </div>
-  <div class="container mt-3">
-    <div class="row">
-      <div class="col">
-        <span class="bg-primary text-white p-2">Igralište</span>
-        <hr class="bg-primary">
-        <p class="text-justify">
-        </p>
-      </div>
-    </div>  
-  </div>
+  
   <footer class="bg-primary  d-flex justify-content-between text-light" style="height:40px;">
-    <div class="copyright" style="font-size: 13px;margin: auto auto;">2021 © Football<span class="text-dark">Info</span></div>
+    <div class="copyright" style="font-size: 13px;margin: auto auto;">2021 © Football<span class="text-dark">Info</span>    </div>
   </footer>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -108,7 +68,70 @@
     integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
     crossorigin="anonymous"></script>
   <script>
-    console.log("jee");
+    
+    function loadData(method,url,callback){
+        var xhr=new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(this.readyState===4 && this.status===200){
+                callback(JSON.parse(this.responseText));
+            }
+        }
+        xhr.open(method,url,true);
+        xhr.setRequestHeader("x-rapidapi-key", "1b0c889093msh064c180d09030cdp1330e0jsn88d6c66eb7ed");
+        xhr.setRequestHeader("x-rapidapi-host", "api-football-v1.p.rapidapi.com");
+        xhr.send();
+    }
+    document.getElementById("row").innerHTML='';
+    var value=1;
+    loadData("GET","https://api-football-v1.p.rapidapi.com/v2/teams/league/"+value+"",function(data){
+        console.log(data);
+        getCountry(data);
+    
+    });
+    function getCountry(data){
+        var teams=data.api.teams;
+        console.log(teams);
+        teams.forEach(function(team){
+            var col = document.createElement("div");
+            col.className='col-md-4 mb-4 m-auto';
+            col.style='width:17rem';
+            var card = document.createElement("div");
+            card.className='card';
+            var card_body=document.createElement("div");
+            card_body.className='card-body';
+            var img=document.createElement("img");
+            img.className="card-img-top m-auto mt-2";
+            img.style="width:12rem;height:10rem;"
+            img.src=team.logo;
+            var title=document.createElement("h5");
+            title.className='card-title text-center';
+            var textnode = document.createTextNode(team.name);
+            title.appendChild(textnode);
+
+            var card_footer=document.createElement("p");
+            card_footer.className='card-text';
+            var list=document.createElement("ul");
+            list.className='list-style-type:square;font-size:12px;color:gray;';
+            var li=document.createElement("li");
+            var stadion = document.createTextNode('Stadion: ' + team.venue_name);
+            var li_sec=document.createElement("li");
+            var kapacitet = document.createTextNode('Kapacitet: ' + team.venue_capacity);
+            li.appendChild(stadion);
+            li_sec.appendChild(kapacitet);
+            list.appendChild(li);
+            list.appendChild(li_sec);
+            card_footer.appendChild(list);
+            card_body.appendChild(title);
+            card.appendChild(img);
+            card.appendChild(card_body);
+            card.appendChild(card_footer);
+            col.appendChild(card);
+            
+            document.getElementById("row").appendChild(col);
+            
+        })
+    }
+
   </script>
 </body>
 
