@@ -69,9 +69,24 @@
             <div class="row mt-3" id="teams">
                 <div class="col-12 mb-2">
                     <h2 class="text-primary text-center">Ekipe</h2>
+                    
                 </div>
             </div>
         </div>
+        <h2 class="text-primary text-center">Najbolji strijelci</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Igrač</th>
+                    <th class="text-center">Ekipa</th>
+                    <th class="text-center">Golovi</th>
+                    <th class="text-center">Asistencije</th>
+                    <th class="text-center">Odigrane utakmice</th>
+                </tr>
+            </thead>
+            <tbody id="playersRow">
+            </tbody>
+        </table>
     </div>
     <footer class="bg-primary  d-flex justify-content-between text-light" style="height:40px;">
         <div class="copyright" style="font-size: 13px;margin: auto auto;">2021 © Football<span class="text-dark">Info</span>    </div>
@@ -83,7 +98,6 @@
         crossorigin="anonymous"></script>
     <script>
         var value=window.location.search.split("=")[1];
-        console.log(value);
         var naslovi=[
             {
                 id:2,
@@ -143,10 +157,8 @@
             xhr.setRequestHeader("x-rapidapi-host", "api-football-v1.p.rapidapi.com");
             xhr.send();
         }
-        var leagueTeams=[];
         loadData("GET","https://api-football-v1.p.rapidapi.com/v2/teams/league/"+value+"",function(data){
             leagueTeams=data.api.teams;
-            console.log(leagueTeams);
             leagueTeams.forEach(function(team){
                 var col = document.createElement("div");
                 col.className='col-md-4 mb-4 m-auto';
@@ -185,8 +197,39 @@
                 
                 document.getElementById("teams").appendChild(col);
             })
-
         });
+        loadData("GET", "https://api-football-v1.p.rapidapi.com/v2/topscorers/"+value,function(data){
+            var topscorers=data.api.topscorers;
+            console.log(topscorers);
+            topscorers.forEach(function(player){
+                var tbody=document.getElementById("playersRow");
+                var tr=document.createElement("tr");
+                var tdName=document.createElement("td");
+                tdName.className='text-center';
+                var tdTeam=document.createElement("td");
+                tdTeam.className='text-center';
+                var tdGoals=document.createElement("td");
+                tdGoals.className='text-center';
+                var tdAsis=document.createElement("td");
+                tdAsis.className='text-center';
+                var tdGames=document.createElement("td");
+                tdGames.className='text-center';
+
+                tdName.innerText=player.player_name;
+                tdTeam.innerText=player.team_name;
+                tdGoals.innerText=player.goals.total;
+                tdAsis.innerText=player.goals.assists;
+                tdGames.innerText=player.games.appearences;
+
+                tr.appendChild(tdName);
+                tr.appendChild(tdTeam);
+                tr.appendChild(tdGoals);
+                tr.appendChild(tdAsis);
+                tr.appendChild(tdGames);
+                tbody.appendChild(tr);
+            })
+        });
+        
     </script>
 </body>
 </html>
