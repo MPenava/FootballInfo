@@ -173,8 +173,14 @@
                 img.src=team.logo;
                 var title=document.createElement("h5");
                 title.className='card-title text-center';
+                title.title='O klubu';
+                var aLink=document.createElement("a");
+                aLink.style="text-decoration:none;"
+                aLink.class="text-primary";
+                aLink.href='about-club.html?id='+team.team_id;
                 var textnode = document.createTextNode(team.name);
-                title.appendChild(textnode);
+                aLink.appendChild(textnode);
+                title.appendChild(aLink);
 
                 var card_footer=document.createElement("p");
                 card_footer.className='card-text';
