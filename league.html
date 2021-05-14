@@ -200,7 +200,6 @@
         });
         loadData("GET", "https://api-football-v1.p.rapidapi.com/v2/topscorers/"+value,function(data){
             var topscorers=data.api.topscorers;
-            console.log(topscorers);
             topscorers.forEach(function(player){
                 var tbody=document.getElementById("playersRow");
                 var tr=document.createElement("tr");
