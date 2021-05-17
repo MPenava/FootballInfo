@@ -68,40 +68,32 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="league.html?value=2"
+                    <a class="dropdown-item" href="league.html?id=2"
                       >Premier League</a
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="league.html?value=4"
+                    <a class="dropdown-item" href="league.html?id=4"
                       >Ligue 1</a
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="league.html?value=8"
+                    <a class="dropdown-item" href="league.html?id=8"
                       >Bundesliga</a
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="league.html?value=9"
+                    <a class="dropdown-item" href="league.html?id=9"
                       >LaLiga</a
                     >
                   </li>
                   <li>
-                    <a class="dropdown-item" href="league.html?value=10"
+                    <a class="dropdown-item" href="league.html?id=10"
                       >Serie A</a
                     >
                   </li>
                 </ul>
               </div>
-            </li>
-            <li class="nav-item ml-2">
-              <a
-                class="nav-link active text-light"
-                aria-current="page"
-                href="transfers.html"
-                >Transferi</a
-              >
             </li>
           </ul>
         </div>
@@ -110,12 +102,22 @@
     <div class="container mt-2">
         <h1 class="text-center text-primary" id="nameOfClub"></h1>
         <hr>
-        <h1 class="text-primary text-center">Trener</h1>
-        <div class="card border-0 shadow  bg-body rounded mb-3 m-auto" style="width:17rem;height:18rem;">
-            <img src="" alt="" id="imgCoach" class="card-img-top m-auto mt-2" style="width:12rem;height:10rem;">
-            <div class="card-body">
-                <h4 class="text-center text-primary" id="nameOfCoach"></h4>
+        <div class="row">
+          <div class="col-lg-4">
+            <h1 class="text-primary text-center">Trener</h1>
+            <div class="card border-0 shadow  bg-body rounded mb-3 m-auto" style="width:17rem;height:18rem;">
+                <img src="" alt="" id="imgCoach" class="card-img-top m-auto mt-2" style="width:12rem;height:10rem;">
+                <div class="card-body">
+                  <h4 class="text-center text-danger" id="nameOfCoach"></h4>
+                </div>
             </div>
+          </div>
+          <div class="col-lg-8">
+            <h1 class="text-primary text-center">Stadion</h1>
+            <img src="" alt="" id="imgStadion" style="width:90%;">
+            <h4 class="text-danger text-center mt-3" id="nameOfStadion"></h4>
+            <p class="text-danger text-center" id="capStadion"></p>
+          </div>
         </div>
         <hr>
         <h1 class="text-primary text-center">Igrači</h1>
@@ -156,7 +158,6 @@
 
         loadData("GET", "https://api-football-v1.p.rapidapi.com/v3/coachs?team="+id,function(data){
             coachData=data.response;
-            console.log(coachData)
             coachData.forEach(function(data){
                 document.getElementById("nameOfClub").innerText=data.team.name;
                 document.getElementById("imgCoach").src=data.photo;
@@ -203,8 +204,15 @@
 
                 document.getElementById("players").appendChild(col);
             });
-
         });
+        loadData("GET", "https://api-football-v1.p.rapidapi.com/v3/teams?id="+id ,function(data){
+          data=data.response;
+          data.forEach(function(pl){
+            document.getElementById("imgStadion").src=pl.venue.image;
+            document.getElementById("nameOfStadion").innerText=pl.venue.name;
+            document.getElementById("capStadion").innerText='Kapacitet: ' + pl.venue.capacity;
+          })
+        }); 
     </script>
   </body>
 </html>
