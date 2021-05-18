@@ -164,6 +164,14 @@
                 document.getElementById("nameOfCoach").innerText=data.firstname + " " +data.lastname;
             });
         });
+        loadData("GET", "https://api-football-v1.p.rapidapi.com/v3/teams?id="+id ,function(data){
+          data=data.response;
+          data.forEach(function(pl){
+            document.getElementById("imgStadion").src=pl.venue.image;
+            document.getElementById("nameOfStadion").innerText=pl.venue.name;
+            document.getElementById("capStadion").innerText='Kapacitet: ' + pl.venue.capacity;
+          })
+        }); 
         loadData("GET", "https://api-football-v1.p.rapidapi.com/v3/players?team="+ id + "&season=2020",function(data){
             var players=data.response;
             players.forEach(function(player){
@@ -205,14 +213,6 @@
                 document.getElementById("players").appendChild(col);
             });
         });
-        loadData("GET", "https://api-football-v1.p.rapidapi.com/v3/teams?id="+id ,function(data){
-          data=data.response;
-          data.forEach(function(pl){
-            document.getElementById("imgStadion").src=pl.venue.image;
-            document.getElementById("nameOfStadion").innerText=pl.venue.name;
-            document.getElementById("capStadion").innerText='Kapacitet: ' + pl.venue.capacity;
-          })
-        }); 
     </script>
   </body>
 </html>
