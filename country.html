@@ -84,20 +84,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
     integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
     crossorigin="anonymous"></script>
+  <script src="main.js"></script>
   <script>
-    
-    function loadData(method,url,callback){
-        var xhr=new XMLHttpRequest();
-        xhr.onreadystatechange=function(){
-            if(this.readyState===4 && this.status===200){
-                callback(JSON.parse(this.responseText));
-            }
-        }
-        xhr.open(method,url,true);
-        xhr.setRequestHeader("x-rapidapi-key", "1b0c889093msh064c180d09030cdp1330e0jsn88d6c66eb7ed");
-        xhr.setRequestHeader("x-rapidapi-host", "api-football-v1.p.rapidapi.com");
-        xhr.send();
-    }
     document.getElementById("row").innerHTML='';
     var value=1;
     loadData("GET","https://api-football-v1.p.rapidapi.com/v2/teams/league/"+value+"",function(data){
