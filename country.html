@@ -89,11 +89,6 @@
     document.getElementById("row").innerHTML='';
     var value=1;
     loadData("GET","https://api-football-v1.p.rapidapi.com/v2/teams/league/"+value+"",function(data){
-        console.log(data);
-        getCountry(data);
-    
-    });
-    function getCountry(data){
         var teams=data.api.teams;
         console.log(teams);
         teams.forEach(function(team){
@@ -135,8 +130,8 @@
             document.getElementById("row").appendChild(col);
             
         })
-    }
-
+    
+    });
   </script>
 </body>
 
